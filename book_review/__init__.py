@@ -1,8 +1,20 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import json
+
+# parse config data
+with open("book_review/config.json") as f:
+    data = json.load(f)
 
 app = Flask(__name__)
-app.config["SECRET"] = "3c794f0c67bd561ce841fc6a5999bf0df298a0f0ae3487efda9d0ef4"
+# app config
+app.config["SECRET"] = data["app_secret"],
+app.config["SQLALCHEMY_DATABASE_URI"] = data["sqlalchemy_database_uri"]
 
+# database
+db = SQLAlchemy(app)
+
+# routes
 from book_review import routes
 
 
