@@ -7,3 +7,9 @@ venv/
 
 # cache
 __pycache__
+
+#db files
+site.db
+
+# tokens, secret, keys ...
+config.json
