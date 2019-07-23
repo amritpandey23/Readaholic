@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 import json
 
 # parse config data
@@ -13,6 +14,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = data["sqlalchemy_database_uri"]
 
 # database
 db = SQLAlchemy(app)
+
+#login manager
+login_manager = LoginManager(app)
+login_manager.login_view = "login"
+login_manager.login_message_category = "info"
 
 # routes
 from book_review import routes

@@ -2,6 +2,7 @@ from book_review import app, db
 from flask import render_template, url_for, flash, redirect, request
 from book_review.forms import LoginForm, ReviewForm
 from book_review.models import Admin, Book
+from flask_login import login_user, logout_user, current_user, login_required
 
 from slugify import slugify
 
@@ -32,18 +33,29 @@ def about():
 # login page
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        flash("You are already logged in!", "success")
+        return redirect(url_for("home"))
     form = LoginForm()
     if form.validate_on_submit():
         admin = Admin.query.filter_by(email = form.email.data).first()
         if admin and admin.password == form.password.data:
+            login_user(admin)
             flash("Login successful", "success")
             next_page = request.args.get("next")
             return redirect(next_page) if next_page else redirect(url_for("home"))
         flash("login unsucessful", "danger")
     return render_template("login.html", form=form)
 
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("home"))
+
 # add reviews page
 @app.route("/add_review", methods=["GET", "POST"])
+@login_required
 def add_review():
     form = ReviewForm()
     if form.validate_on_submit():
