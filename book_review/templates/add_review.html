@@ -4,59 +4,60 @@
 <form action="" method="POST">
     {{ form.hidden_tag() }}
     <fieldset class="form-group">
-        <legend class="border-bottom mb-4">Add a review</legend>
+        <legend class="border-bottom mb-4">Add a Book review</legend>
+
+        <!-- book title -->
         <div class="form-group">
-            {{ form.name.label(class="form-control-label") }}
-            {% if form.name.error %}
-            {{ form.name(class="form-control form-control-lg is-invalid") }}
+            {{ form.book_title.label(class="form-control-label") }}
+            {% if form.book_title.error %}
+            {{ form.book_title(class="form-control form-control-lg is-invalid") }}
             <div class="invalid-feedback">
-                {% for error in form.name.errors %}
+                {% for error in form.book_title.errors %}
                 <span>{{ error }}</span>
                 {% endfor %}
             </div>
             {% else %}
-            {{ form.name(class="form-control form-control-lg") }}
+            {{ form.book_title(class="form-control form-control-lg") }}
             {% endif %}
         </div>
+
+        <!-- author's name -->
         <div class="form-group">
-            {{ form.author.label(class="form-control-label") }}
-            {% if form.author.error %}
-            {{ form.author(class="form-control form-control-lg is-invalid") }}
+            {{ form.author_name.label(class="form-control-label") }}
+            {% if form.author_name.error %}
+            {{ form.author_name(class="form-control form-control-lg is-invalid") }}
             <div class="invalid-feedback">
-                {% for error in form.author.errors %}
+                {% for error in form.author_name.errors %}
                 <span>{{ error }}</span>
                 {% endfor %}
             </div>
             {% else %}
-            {{ form.author(class="form-control form-control-lg") }}
+            {{ form.author_name(class="form-control form-control-lg") }}
             {% endif %}
         </div>
+
+        <!-- cover image file -->
         <div class="form-group">
-            {{ form.cover_image.label(class="form-control-label") }}
-            {% if form.cover_image.error %}
-            {{ form.cover_image(class="form-control form-control-lg is-invalid") }}
+            {{ form.cover_image_file.label(class="form-control-label") }}
+            {% if form.cover_image_file.error %}
+            {{ form.cover_image_file(class="form-control form-control-lg is-invalid") }}
             <div class="invalid-feedback">
-                {% for error in form.cover_image.errors %}
+                {% for error in form.cover_image_file.errors %}
                 <span>{{ error }}</span>
                 {% endfor %}
             </div>
             {% else %}
-            {{ form.cover_image(class="form-control form-control-lg") }}
+            {{ form.cover_image_file(class="form-control form-control-lg") }}
             {% endif %}
         </div>
+
+        <!-- tag select field -->
         <div class="form-group">
-            {{ form.short_description.label(class="form-control-label") }}
-            {% if form.short_description.error %}
-            {{ form.short_description(class="form-control form-control-lg is-invalid") }}
-            <div class="invalid-feedback">
-                {% for error in form.short_description.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-            {% else %}
-            {{ form.short_description(class="form-control form-control-lg") }}
-            {% endif %}
+            {{ form.tag.label(class="form-control-label") }}
+            {{ form.tag(class="form-control form-control-lg") }}
         </div>
+
+        <!-- isbn number -->
         <div class="form-group">
             {{ form.isbn.label(class="form-control-label") }}
             {% if form.isbn.error %}
@@ -70,20 +71,38 @@
             {{ form.isbn(class="form-control form-control-lg") }}
             {% endif %}
         </div>
+
+        <!-- tiny summary -->
         <div class="form-group">
-            {{ form.review_text.label(class="form-control-label") }}
-            {% if form.review_text.error %}
-            {{ form.review_text(class="form-control form-control-lg is-invalid") }}
+            {{ form.tiny_summary.label(class="form-control-label") }}
+            {% if form.tiny_summary.error %}
+            {{ form.tiny_summary(class="form-control form-control-lg is-invalid") }}
             <div class="invalid-feedback">
-                {% for error in form.review_text.errors %}
+                {% for error in form.tiny_summary.errors %}
                 <span>{{ error }}</span>
                 {% endfor %}
             </div>
             {% else %}
-            {{ form.review_text(class="form-control form-control-lg") }}
+            {{ form.tiny_summary(class="form-control form-control-lg") }}
             {% endif %}
         </div>
 
+        <!-- review content -->
+        <div class="form-group">
+            {{ form.review_content.label(class="form-control-label") }}
+            {% if form.review_content.error %}
+            {{ form.review_content(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.review_content.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.review_content(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+
+        <!-- submit button -->
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
         </div>
