@@ -36,8 +36,18 @@
         </header>
         <main class="main-section">
             <div class="container">
-                {% block content %}
-                {% endblock %}
+                <!-- flash messages -->
+                {% with messages = get_flashed_messages(with_categories = True) %}
+                    {% if messages %}
+                        {% for cat, msg in messages %}
+                            <div class="alert alert-{{ cat }}">
+                                {{ msg }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <!-- content block -->
+                {% block content %} {% endblock %}
             </div>
         </main>
     </div>
