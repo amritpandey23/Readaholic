@@ -1,17 +1,19 @@
 from book_review import db
 
-class Books(db.Model):
+class Book(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(120), unique = True, nullable = False)
-    author = db.Column(db.String(80), nullable = False)
-    cover_image = db.Column(db.String(120), nullable = False, default = "default.jpeg")
-    short_description = db.Column(db.Text, nullable = False)
+    book_title = db.Column(db.String(120), unique = True, nullable = False)
+    author_name = db.Column(db.String(80), nullable = False)
+    cover_image_file = db.Column(db.String(120), nullable = False, default = "default.jpeg")
     isbn = db.Column(db.Integer, nullable = True, default=1343)
-    review_text = db.Column(db.Text, nullable = False)
+    tiny_summary = db.Column(db.Text, nullable = False)
+    review_content = db.Column(db.Text, nullable = True)
     def __repr__(self):
-        return f"Name: {self.name}, Author: {self.author}"
+        return f"Title: {self.name}, Author: {self.author}, Cover Image: {self.cover_image_file}, ISBN Number: {self.isbn}"
 
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(20), nullable = False)
     password = db.Column(db.String(100), nullable = False)
+    def __repr__(self):
+        return f"Email: {self.email}"
