@@ -3,6 +3,8 @@ from flask import render_template, url_for, flash, redirect, request
 from book_review.forms import LoginForm, ReviewForm
 from book_review.models import Admin, Book
 
+from slugify import slugify
+
 books = [
     {
         "name": "Cracking the Coding Interview",
@@ -47,6 +49,7 @@ def add_review():
     if form.validate_on_submit():
         book = Book(
             book_title = form.book_title.data,
+            title_slug = slugify(form.book_title.data),
             author_name = form.author_name.data,
             cover_image_file = form.cover_image_file.data,
             isbn = form.isbn.data,
