@@ -8,7 +8,7 @@ with open("book_review/config.json") as f:
 
 app = Flask(__name__)
 # app config
-app.config["SECRET"] = data["app_secret"],
+app.config["SECRET_KEY"] = data["app_secret"]
 app.config["SQLALCHEMY_DATABASE_URI"] = data["sqlalchemy_database_uri"]
 
 # database
