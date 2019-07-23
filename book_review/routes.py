@@ -1,7 +1,7 @@
 from book_review import app, db
 from flask import render_template, url_for, flash, redirect, request
 from book_review.forms import LoginForm, ReviewForm
-from book_review.models import Admin, Books
+from book_review.models import Admin, Book
 
 books = [
     {
@@ -16,11 +16,18 @@ books = [
     }
 ]
 
+# home page
 @app.route("/")
 @app.route("/catalog")
 def home():
     return render_template("home.html", books=books)
 
+# about page
+@app.route("/about")
+def about():
+    return render_template("about.html", title="About")
+
+# login page
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -33,25 +40,32 @@ def login():
         flash("login unsucessful", "danger")
     return render_template("login.html", form=form)
 
-@app.route("/book/<name>")
-def book(name):
-    return render_template("review.html", book_name=name)
-
+# add reviews page
 @app.route("/add_review", methods=["GET", "POST"])
 def add_review():
     form = ReviewForm()
     if form.validate_on_submit():
-        book = Books(
-            name = form.name.data,
-            author = form.author.data,
-            cover_image = form.cover_image.data,
-            short_description = form.short_description.data,
+        book = Book(
+            book_title = form.book_title.data,
+            author_name = form.author_name.data,
+            cover_image_file = form.cover_image_file.data,
             isbn = form.isbn.data,
-            review_text = form.review_text.data
+            tiny_summary = form.tiny_summary.data,
+            review_content = form.review_content.data
         )
-        db.session.add(book)
-        db.session.commit()
+        try:
+            db.session.add(book)
+            db.session.commit()
+        except:
+            flash("Failed! Something went wrong while commiting book to the database.", "danger")
+            return render_template("add_review.html", form=form)
+            
         flash("book successfully added to the database", "success")
         return redirect(url_for("home"))
 
     return render_template("add_review.html", form=form)
+
+# book page
+@app.route("/book/<name>")
+def book(name):
+    return render_template("review.html", book_name=name)
