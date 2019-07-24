@@ -13,3 +13,6 @@ site.db
 
 # tokens, secret, keys ...
 config.json
+
+# uploaded files
+static/img/
