@@ -1,5 +1,5 @@
 .wrapper {
-    min-height: calc(100vh - 50px);
+    min-height: calc(100vh - 56px);
 }
 
 .main-footer {
@@ -9,5 +9,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50px;
+    height: 56px;
 }
