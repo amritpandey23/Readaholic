@@ -90,21 +90,6 @@
             {% endif %}
         </div>
 
-        <!-- review content -->
-        <div class="form-group">
-            {{ form.review_content.label(class="form-control-label") }}
-            {% if form.review_content.error %}
-            {{ form.review_content(class="form-control is-invalid") }}
-            <div class="invalid-feedback">
-                {% for error in form.review_content.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-            {% else %}
-            {{ form.review_content(class="form-control") }}
-            {% endif %}
-        </div>
-
         <!-- submit button -->
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}

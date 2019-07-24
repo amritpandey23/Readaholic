@@ -1,6 +1,6 @@
 from book_review import app, db, bcrypt
 from flask import render_template, url_for, flash, redirect, request
-from book_review.forms import LoginForm, ReviewForm, AdminForm
+from book_review.forms import LoginForm, BookForm, AdminForm
 from book_review.models import Admin, Book
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.utils import secure_filename
@@ -13,7 +13,7 @@ from slugify import slugify
 @app.route("/catalog")
 def home():
     books = Book.query.all()
-    return render_template("home.html", books=books)
+    return render_template("home.html", books=books, title="Home")
 
 # about page
 @app.route("/about")
@@ -35,7 +35,7 @@ def login():
             next_page = request.args.get("next")
             return redirect(next_page) if next_page else redirect(url_for("home"))
         flash("login unsucessful", "danger")
-    return render_template("login.html", form=form)
+    return render_template("login.html", form=form, title="Login as Administrator")
 
 @app.route("/logout")
 @login_required
@@ -44,15 +44,15 @@ def logout():
     return redirect(url_for("home"))
 
 # add reviews page
-@app.route("/add_review", methods=["GET", "POST"])
+@app.route("/add_book", methods=["GET", "POST"])
 @login_required
-def add_review():
-    form = ReviewForm()
+def add_book():
+    form = BookForm()
     if form.validate_on_submit():
         f = form.cover_image_file.data
         filename = secure_filename(f.filename)
         f.save(os.path.join(
-            '/Users/amrit/Desktop/Projects/Review-Book-Site/static/img', filename
+            '/Users/amrit/Desktop/Projects/Review-Book-Site/book_review/static/img', filename
         ))
         book = Book(
             book_title = form.book_title.data,
@@ -60,20 +60,19 @@ def add_review():
             author_name = form.author_name.data,
             cover_image_file = filename if filename else "default.jpeg",
             isbn = form.isbn.data,
-            tiny_summary = form.tiny_summary.data,
-            review_content = form.review_content.data
+            tiny_summary = form.tiny_summary.data
         )
         try:
             db.session.add(book)
             db.session.commit()
         except:
             flash("Failed! Something went wrong while commiting book to the database.", "danger")
-            return render_template("add_review.html", form=form)
+            return render_template("add_book.html", form=form)
             
         flash("book successfully added to the database", "success")
         return redirect(url_for("home"))
 
-    return render_template("add_review.html", form=form)
+    return render_template("add_book.html", form=form, title="Add Book")
 
 @app.route("/add_admin", methods=["GET", "POST"])
 @login_required
