@@ -1,4 +1,4 @@
-from book_review import app, db
+from book_review import app, db, bcrypt
 from flask import render_template, url_for, flash, redirect, request
 from book_review.forms import LoginForm, ReviewForm
 from book_review.models import Admin, Book
@@ -39,7 +39,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         admin = Admin.query.filter_by(email = form.email.data).first()
-        if admin and admin.password == form.password.data:
+        if admin and bcrypt.check_password_hash(admin.password, form.password.data):
             login_user(admin)
             flash("Login successful", "success")
             next_page = request.args.get("next")
