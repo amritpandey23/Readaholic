@@ -1,28 +1,18 @@
 from book_review import app, db, bcrypt
 from flask import render_template, url_for, flash, redirect, request
-from book_review.forms import LoginForm, ReviewForm
+from book_review.forms import LoginForm, ReviewForm, AdminForm
 from book_review.models import Admin, Book
 from flask_login import login_user, logout_user, current_user, login_required
+from werkzeug.utils import secure_filename
+import os
 
 from slugify import slugify
-
-books = [
-    {
-        "name": "Cracking the Coding Interview",
-        "description": "Some quick example text to build on the card title and make up the bulk of the card's content.",
-        "slug": "cracking-the-coding-interview"
-    },
-    {
-        "name": "The C Programming Language",
-        "description": "Some quick example text to build on the card title and make up the bulk of the card's content.",
-        "slug": "the-c-programming-language"
-    }
-]
 
 # home page
 @app.route("/")
 @app.route("/catalog")
 def home():
+    books = Book.query.all()
     return render_template("home.html", books=books)
 
 # about page
@@ -68,7 +58,7 @@ def add_review():
             book_title = form.book_title.data,
             title_slug = slugify(form.book_title.data),
             author_name = form.author_name.data,
-            cover_image_file = form.cover_image_file.data,
+            cover_image_file = filename if filename else "default.jpeg",
             isbn = form.isbn.data,
             tiny_summary = form.tiny_summary.data,
             review_content = form.review_content.data
