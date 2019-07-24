@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_bcrypt import Bcrypt
 import json
 
 # parse config data
@@ -11,6 +12,9 @@ app = Flask(__name__)
 # app config
 app.config["SECRET_KEY"] = data["app_secret"]
 app.config["SQLALCHEMY_DATABASE_URI"] = data["sqlalchemy_database_uri"]
+
+# bcrypt initialisation
+bcrypt = Bcrypt(app)
 
 # database
 db = SQLAlchemy(app)
