@@ -18,7 +18,7 @@ class Book(db.Model):
     title_slug = db.Column(db.String(120), unique = True, nullable = False)
     author_name = db.Column(db.String(80), nullable = False)
     cover_image_file = db.Column(db.String(120), nullable = False, default = "default.jpeg")
-    isbn = db.Column(db.Integer, nullable = True, default=1343)
+    isbn = db.Column(db.Integer, nullable = False, default=1343)
     tiny_summary = db.Column(db.Text, nullable = False)
     review_content = db.Column(db.Text, nullable = True)
     def __repr__(self):
