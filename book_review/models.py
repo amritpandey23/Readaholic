@@ -22,4 +22,4 @@ class Book(db.Model):
     tiny_summary = db.Column(db.Text, nullable = False)
     review_content = db.Column(db.Text, nullable = True)
     def __repr__(self):
-        return f"Title: {self.name}, Author: {self.author}, Cover Image: {self.cover_image_file}, ISBN Number: {self.isbn}"
+        return f"Title: {self.book_title}, Author: {self.author_name}, Cover Image: {self.cover_image_file}, ISBN Number: {self.isbn}"
