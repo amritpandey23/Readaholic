@@ -59,6 +59,11 @@ def logout():
 def add_review():
     form = ReviewForm()
     if form.validate_on_submit():
+        f = form.cover_image_file.data
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(
+            '/Users/amrit/Desktop/Projects/Review-Book-Site/static/img', filename
+        ))
         book = Book(
             book_title = form.book_title.data,
             title_slug = slugify(form.book_title.data),
