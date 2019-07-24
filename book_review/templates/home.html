@@ -3,13 +3,17 @@
 {% block content %}
 <div class="row">
     {% for book in books %}
-    <div class="col-lg-4 col-md-6">
-            <div class="card" style="width: 18rem;">
-                <img src="{{ url_for('static', filename='img/' + book.cover_image_file) }}" class="card-img-top">
+        <div class="col-sm-6 col-md-3 mb-4">
+            <div class="card" style="height: 100%;">
+                <a href="/book/{{ book.title_slug }}">
+                    <img src="{{ url_for('static', filename='img/' + book.cover_image_file) }}" class="card-img-top">
+                </a>
                 <div class="card-body">
                     <h5 class="card-title">{{ book.book_title }}</h5>
-                    <p class="card-text">{{ book.tiny_summary }}</p>
-                    <a href="/book/{{ book.title_slug }}" class="btn btn-primary">Read Review</a>
+                    <div class="btn-group">
+                            <a href="/book/{{ book.title_slug }}" class="btn btn-sm btn-info mr-2">Read Review</a>
+                            <a href="/book/{{ book.title_slug }}" class="btn btn-sm btn-outline-info">Buy</a>
+                    </div>
                 </div>
             </div>
         </div>
