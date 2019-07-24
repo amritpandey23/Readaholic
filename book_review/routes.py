@@ -80,6 +80,25 @@ def add_review():
 
     return render_template("add_review.html", form=form)
 
+@app.route("/add_admin", methods=["GET", "POST"])
+@login_required
+def add_admin():
+    form = AdminForm()
+    if form.validate_on_submit():
+        admin_user = Admin(
+            email = form.email.data,
+            password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+        )
+        try:
+            db.session.add(admin_user)
+            db.session.commit()
+            flash(f"Successfully registered new admin with: {form.email.data}", "success")
+        except:
+            flash("Some error occurred", "danger")
+        
+    
+    return render_template("add_admin.html", form = form, title = "Add new admin")
+
 # book page
 @app.route("/book/<name>")
 def book(name):
