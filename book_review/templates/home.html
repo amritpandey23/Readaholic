@@ -5,11 +5,11 @@
     {% for book in books %}
     <div class="col-lg-4 col-md-6">
             <div class="card" style="width: 18rem;">
-                <img src="{{ url_for('static', filename='img/default.jpeg') }}" class="card-img-top">
+                <img src="{{ url_for('static', filename='img/' + book.cover_image_file) }}" class="card-img-top">
                 <div class="card-body">
-                    <h5 class="card-title">{{ book.name }}</h5>
-                    <p class="card-text">{{ book.description }}</p>
-                    <a href="/book/{{ book.slug }}" class="btn btn-primary">Read Review</a>
+                    <h5 class="card-title">{{ book.book_title }}</h5>
+                    <p class="card-text">{{ book.tiny_summary }}</p>
+                    <a href="/book/{{ book.title_slug }}" class="btn btn-primary">Read Review</a>
                 </div>
             </div>
         </div>
