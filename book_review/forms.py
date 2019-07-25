@@ -19,13 +19,32 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 class BookForm(FlaskForm):
-    book_title = StringField(label="Title", validators=[DataRequired(), Length(max=120)])
-    author_name = StringField(label="Author", validators=[DataRequired(), Length(max=40)])
+    book_title = StringField(
+        label="Title", 
+        validators=[DataRequired(), Length(max=120)],
+        render_kw={"placeholder": "Perilous Shark was here"}
+    )
+    author_name = StringField(
+        label="Author", 
+        validators=[DataRequired(), Length(max=40)],
+        render_kw={"placeholder": "Gurton Buster"}
+    )
     cover_image_file = FileField(label="Upload Cover Image")
-    isbn = StringField(label="ISBN", default="1234", validators=[DataRequired()])
+    isbn = StringField(
+        label="ISBN",
+        validators=[DataRequired()],
+        render_kw={"placeholder": "00991122334"}
+    )
     tag = SelectField(label="Tag", choices=book_tags)
-    initial_rating = StringField(label="Initial Rating(out of 5)")
-    tiny_summary = TextAreaField(label="Tiny Summary", validators=[DataRequired()])
+    initial_rating = StringField(
+        label="Initial Rating", 
+        render_kw={"placeholder": "Out of 5 points"}
+    )
+    tiny_summary = TextAreaField(
+        label="Tiny Summary", 
+        validators=[DataRequired()],
+        render_kw={"placeholder": "few words ..."}
+    )
     submit = SubmitField(label="Save")
 
 class AdminForm(FlaskForm):
