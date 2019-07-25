@@ -50,30 +50,44 @@
                 {{ form.isbn(class="form-control") }}
                 {% endif %}
             </div>
+
             <!-- tag select field -->
             <div class="form-group col-md-6">
                 {{ form.tag.label(class="form-control-label") }}
                 {{ form.tag(class="form-control") }}
             </div>
-        </div>
 
-
-
-
-        <!-- cover image file -->
-        <div class="form-group">
-            {{ form.cover_image_file.label(class="form-control-label") }}
-            {% if form.cover_image_file.error %}
-            {{ form.cover_image_file(class="form-control-file is-invalid") }}
-            <div class="invalid-feedback">
-                {% for error in form.cover_image_file.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+            <!-- rating -->
+            <div class="form-group col-md-6">
+                {{ form.initial_rating.label(class="form-control-label") }}
+                {% if form.initial_rating.error %}
+                {{ form.initial_rating(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.initial_rating.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.initial_rating(class="form-control") }}
+                {% endif %}
             </div>
-            {% else %}
-            {{ form.cover_image_file(class="form-control-file") }}
-            {% endif %}
+
+            <!-- cover image file -->
+            <div class="form-group">
+                {{ form.cover_image_file.label(class="form-control-label") }}
+                {% if form.cover_image_file.error %}
+                {{ form.cover_image_file(class="form-control-file is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.cover_image_file.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.cover_image_file(class="form-control-file") }}
+                {% endif %}
+            </div>
         </div>
+
 
         <!-- tiny summary -->
         <div class="form-group">
