@@ -1,5 +1,5 @@
 from book_review import app, db, bcrypt
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, abort
 from book_review.forms import LoginForm, BookForm, AdminForm
 from book_review.models import Admin, Book
 from flask_login import login_user, logout_user, current_user, login_required
@@ -94,6 +94,43 @@ def add_admin():
     return render_template("add_admin.html", form = form, title = "Add new admin")
 
 # book page
-@app.route("/book/<name>")
-def book(name):
-    return render_template("review.html", book_name=name)
+@app.route("/book/<book_slug>")
+def book(book_slug):
+    book = Book.query.filter_by(title_slug=book_slug).first()
+    return render_template("book_review.html", book=book, title=book.book_title)
+
+@app.route("/book/<book_slug>/edit", methods=["GET", "POST"])
+@login_required
+def edit_book(book_slug):
+    book = Book.query.filter_by(title_slug = book_slug).first()
+    if not book:
+        abort(403)
+    form = BookForm()
+    if form.validate_on_submit():
+        book.book_title = form.book_title.data
+        book.author_name = form.author_name.data
+        book.isbn = form.isbn.data
+        book.tiny_summary = form.tiny_summary.data
+        if form.cover_image_file.data:
+            book.cover_image_file = form.cover_image_file.data
+        db.session.commit()
+        flash("The book was updated!", "success")
+        return redirect(url_for("book", book_slug = book.title_slug))
+    elif request.method == "GET":
+        form.book_title.data = book.book_title
+        form.author_name.data = book.author_name
+        form.isbn.data = book.isbn
+        form.tiny_summary.data = book.tiny_summary
+    return render_template("add_book.html", title=f"Edit {book.book_title}", form=form, book=book)
+
+
+@app.route("/book/<book_slug>/delete", methods=["POST"])
+@login_required
+def delete_book(book_slug):
+    book = Book.query.filter_by(title_slug = book_slug).first()
+    if not book:
+        abort(403)
+    db.session.delete(book)
+    db.session.commit()
+    flash(f"Alright, {book.book_title} was successfully deleted", "success")
+    return redirect(url_for("home"))
