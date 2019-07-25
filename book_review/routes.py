@@ -1,6 +1,6 @@
-from book_review import app, db, bcrypt
+from book_review import app, db, bcrypt, pagedown
 from flask import render_template, url_for, flash, redirect, request, abort
-from book_review.forms import LoginForm, BookForm, AdminForm
+from book_review.forms import LoginForm, BookForm, AdminForm, ReviewForm
 from book_review.models import Admin, Book
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.utils import secure_filename
@@ -134,3 +134,9 @@ def delete_book(book_slug):
     db.session.commit()
     flash(f"Alright, {book.book_title} was successfully deleted", "success")
     return redirect(url_for("home"))
+
+@app.route("/book/<book_slug>/write_review", methods=["GET", "POST"])
+@login_required
+def write_review(book_slug):
+    form = ReviewForm()
+    return render_template("write_review.html", form=form, title="Write Review")

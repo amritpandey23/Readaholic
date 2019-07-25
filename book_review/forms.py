@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, SelectField, FileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from book_review.models import Admin
+from flask_pagedown.fields import PageDownField
 
 book_tags = [
     ("Null", "Choose..."),
@@ -46,6 +47,10 @@ class BookForm(FlaskForm):
         render_kw={"placeholder": "few words ..."}
     )
     submit = SubmitField(label="Save")
+
+class ReviewForm(FlaskForm):
+    review_content = PageDownField(label="Write a review")
+    submit = SubmitField(label = "Save")
 
 class AdminForm(FlaskForm):
     email = StringField(label="Email", validators=[DataRequired()])

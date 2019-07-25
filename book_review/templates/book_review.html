@@ -12,9 +12,10 @@
             <p class="mt-2">
                 {{ book.tiny_summary }}
             </p>
+            {% if current_user.is_authenticated %}
             <div class="btn-groups mt-2">
                 <a href="/book/{{ book.title_slug }}/edit" class="btn btn-sm btn-outline-info mr-2">Edit</a>
-                <a href="/add_review/{{ book.title_slug }}" class="btn btn-sm btn-primary">
+                <a href="/book/{{ book.title_slug }}/write_review" class="btn btn-sm btn-primary">
                     {% if book.review_content %}
                     Edit Review
                     {% else %}
@@ -22,6 +23,7 @@
                     {% endif %}
                 </a>
             </div>
+            {% endif %}
         </div>
         <div class="col-sm-12 mt-4">
             <h1>Detailed Review</h1>
