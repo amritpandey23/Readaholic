@@ -6,7 +6,7 @@
     <div class="col-sm-6 col-md-3 mb-4">
         <div class="card" style="height: 100%;">
             <a href="/book/{{ book.title_slug }}">
-                <img src="{{ url_for('static', filename='img/' + book.cover_image_file) }}" class="card-img-top">
+                <img src="{{ url_for('send_image_file', filename=book.cover_image_file) }}" class="card-img-top">
             </a>
             <div class="card-body">
                 <h5 class="card-title">{{ book.book_title }}</h5>
