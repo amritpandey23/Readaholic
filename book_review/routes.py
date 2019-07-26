@@ -1,7 +1,7 @@
 import os
 from slugify import slugify
 from werkzeug.utils import secure_filename
-from flask import render_template, url_for, flash, redirect, request, abort
+from flask import render_template, url_for, flash, redirect, request, abort, send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
 from book_review import app, db, bcrypt, pagedown
 from book_review.models import Admin, Book
@@ -58,7 +58,8 @@ def add_book():
         filename = secure_filename(f.filename)
         f.save(
             os.path.join(
-                "/Users/amrit/Desktop/Projects/Review-Book-Site/book_review/static/img",
+                app.instance_path,
+                "uploads",
                 filename,
             )
         )
@@ -145,7 +146,7 @@ def edit_book(book_slug):
         form.isbn.data = book.isbn
         form.tiny_summary.data = book.tiny_summary
 
-    return render_template("add_book.html", title=f"Edit {book.book_title}", form=form)
+    return render_template("add_book.html", title=f"Edit {book.book_title}", form=form, book=book)
 
 
 # delete book
@@ -172,3 +173,8 @@ def delete_book(book_slug):
 def write_review(book_slug):
     form = ReviewForm()
     return render_template("write_review.html", form=form, title="Write Review")
+
+# send image file
+@app.route("/uploads/<filename>")
+def send_image_file(filename):
+    return send_from_directory(os.path.join(app.instance_path, "uploads"), filename)
