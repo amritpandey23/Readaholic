@@ -3,25 +3,27 @@
 {% block content %}
 {{ pagedown.include_pagedown() }}
 <ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#Edit" role="tab" aria-controls="Edit" aria-selected="true">Edit</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#Preview" role="tab" aria-controls="Preview" aria-selected="false">Preview</a>
-    </li>
-  </ul>
-  <div class="tab-content" id="myTabContent">
-    <div class="tab-pane show active" id="Edit" role="tabpanel" aria-labelledby="Edit-tab">
-        
-        <form action="">
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-                {{ form.review_content(only_input=True, rows=10, class="from-control", style="width: 100%; height: 100%;") }}
-            </div>
-          </form>
-    </div>
-    <div class="tab-pane" id="Preview" role="tabpanel" aria-labelledby="Preview-tab">
-        {{ form.review_content(only_preview=True, class="mt-4 px-4 py-4") }}
-    </div>
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#Edit" role="tab" aria-controls="Edit"
+      aria-selected="true">Edit</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#Preview" role="tab" aria-controls="Preview"
+      aria-selected="false">Preview</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane show active" id="Edit" role="tabpanel" aria-labelledby="Edit-tab">
+
+    <form action="">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        {{ form.review_content(only_input=True, rows=10, class="from-control", style="width: 100%; height: 100%;") }}
+      </div>
+    </form>
   </div>
+  <div class="tab-pane" id="Preview" role="tabpanel" aria-labelledby="Preview-tab">
+    {{ form.review_content(only_preview=True, class="mt-4 px-4 py-4") }}
+  </div>
+</div>
 {% endblock %}
