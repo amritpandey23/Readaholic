@@ -15,4 +15,6 @@ site.db
 config.json
 
 # uploaded files
-book_review/static/img/
+instance/uploads/*.jpg
+instance/uploads/*.jpeg
+instance/uploads/*.png
