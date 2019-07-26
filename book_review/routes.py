@@ -160,6 +160,8 @@ def delete_book(book_slug):
     try:
         db.session.delete(book)
         db.session.commit()
+        if book.cover_image_file != "default.jpg":
+            os.remove(os.path.join(app.instance_path, "uploads", book.cover_image_file))
     except:
         flash(f"Something went wrong!", "danger")
         return redirect(url_for("edit_book", book_slug=book_slug))
