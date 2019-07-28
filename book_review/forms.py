@@ -7,12 +7,7 @@ from wtforms import (
     SelectField,
     FileField,
 )
-from wtforms.validators import (
-    DataRequired, 
-    Length, Email, 
-    EqualTo, 
-    ValidationError
-)
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_pagedown.fields import PageDownField
 from book_review.models import Admin
 

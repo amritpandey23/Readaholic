@@ -47,7 +47,7 @@ def logout():
     return redirect(url_for("home"))
 
 
-# add reviews page
+# add book
 @app.route("/add_book", methods=["GET", "POST"])
 @login_required
 def add_book():
@@ -69,6 +69,7 @@ def add_book():
             author_name=form.author_name.data,
             cover_image_file=filename if filename else "default.jpeg",
             isbn=form.isbn.data,
+            genre=form.genre.data,
             tiny_summary=form.tiny_summary.data,
         )
         try:
@@ -112,6 +113,9 @@ def book(book_slug):
     book = Book.query.filter_by(title_slug=book_slug).first()
     return render_template("book.html", book=book, title=book.book_title)
 
+@app.route("/genre/<name>")
+def genre(name):
+    return redirect(url_for("home"))
 
 # edit book page
 @app.route("/book/<book_slug>/edit", methods=["GET", "POST"])
