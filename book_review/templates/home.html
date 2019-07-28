@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="row">
-    {% for book in books %}
+    {% for book in books.items %}
     <div class="col-sm-6 col-md-3 mb-4">
         <div class="card" style="height: 100%;">
             <a href="/book/{{ book.title_slug }}">
@@ -19,4 +19,15 @@
     </div>
     {% endfor %}
 </div>
+    {% for page_num in books.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+            {% if curr_page == page_num %}
+            <a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+            <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
+        {% else %}
+        ...
+        {% endif %}
+    {% endfor %}
 {% endblock %}

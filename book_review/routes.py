@@ -1,21 +1,30 @@
 import os
 from slugify import slugify
 from werkzeug.utils import secure_filename
-from flask import render_template, url_for, flash, redirect, request, abort, send_from_directory
+from flask import (
+    render_template,
+    url_for,
+    flash,
+    redirect,
+    request,
+    abort,
+    send_from_directory,
+)
 from flask_login import login_user, logout_user, current_user, login_required
 from book_review import app, db, bcrypt, pagedown
 from book_review.models import Admin, Book
 from book_review.forms import LoginForm, BookForm, AdminForm, ReviewForm
 
 # home page
-@app.route("/")
+@app.route("/", methods=["GET"])
 def home():
-    books = Book.query.all()
-    return render_template("home.html", books=books, title="Home")
+    page = request.args.get("page", default=1, type=int)
+    books = Book.query.paginate(page=page, per_page=8)
+    return render_template("home.html", books=books, title="Home", curr_page=page)
 
 
 # about page
-@app.route("/about")
+@app.route("/about", methods=["GET"])
 def about():
     return render_template("about.html", title="About")
 
@@ -40,7 +49,7 @@ def login():
 
 
 # logout
-@app.route("/logout")
+@app.route("/logout", methods=["POST"])
 @login_required
 def logout():
     logout_user()
@@ -56,13 +65,7 @@ def add_book():
     if form.validate_on_submit():
         f = form.cover_image_file.data
         filename = secure_filename(f.filename)
-        f.save(
-            os.path.join(
-                app.instance_path,
-                "uploads",
-                filename,
-            )
-        )
+        f.save(os.path.join(app.instance_path, "uploads", filename))
         book = Book(
             book_title=form.book_title.data,
             title_slug=slugify(form.book_title.data),
@@ -113,9 +116,11 @@ def book(book_slug):
     book = Book.query.filter_by(title_slug=book_slug).first()
     return render_template("book.html", book=book, title=book.book_title)
 
+
 @app.route("/genre/<name>")
 def genre(name):
     return redirect(url_for("home"))
+
 
 # edit book page
 @app.route("/book/<book_slug>/edit", methods=["GET", "POST"])
@@ -150,7 +155,9 @@ def edit_book(book_slug):
         form.isbn.data = book.isbn
         form.tiny_summary.data = book.tiny_summary
 
-    return render_template("add_book.html", title=f"Edit {book.book_title}", form=form, book=book)
+    return render_template(
+        "add_book.html", title=f"Edit {book.book_title}", form=form, book=book
+    )
 
 
 # delete book
@@ -179,6 +186,7 @@ def delete_book(book_slug):
 def write_review(book_slug):
     form = ReviewForm()
     return render_template("write_review.html", form=form, title="Write Review")
+
 
 # send image file
 @app.route("/uploads/<filename>")
