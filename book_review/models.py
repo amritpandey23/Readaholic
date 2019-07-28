@@ -1,3 +1,4 @@
+from datetime import datetime
 from book_review import db, login_manager
 from flask_login import UserMixin
 
@@ -21,11 +22,12 @@ class Book(db.Model):
     book_title = db.Column(db.String(120), unique=True, nullable=False)
     title_slug = db.Column(db.String(120), unique=True, nullable=False)
     author_name = db.Column(db.String(80), nullable=False)
+    isbn = db.Column(db.Integer, nullable=False, default=1343)
     genre = db.Column(db.String(30), nullable=True)
     rating = db.Column(db.Integer, nullable=True)
-    shop_link = db.Column(db.String(100), nullable="true")
+    shop_link = db.Column(db.String(100), nullable=True)
     cover_image_file = db.Column(db.String(120), nullable=False, default="default.jpeg")
-    isbn = db.Column(db.Integer, nullable=False, default=1343)
+    date_edited = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     tiny_summary = db.Column(db.Text, nullable=True)
     review_content = db.Column(db.Text, nullable=True)
 
