@@ -58,16 +58,19 @@ class BookForm(FlaskForm):
         validators=[DataRequired()],
         render_kw={"placeholder": "00991122334"},
     )
-    tag = SelectField(label="Tag", choices=book_tags)
-    initial_rating = StringField(
-        label="Initial Rating", render_kw={"placeholder": "Out of 5 points"}
-    )
+    genre = SelectField(label="Genre", choices=book_tags)
+    rating = StringField(label="Rating", render_kw={"placeholder": "Out of 5 points"})
+    shop_link = StringField(label="Shop Link")
     tiny_summary = TextAreaField(
         label="Tiny Summary",
         validators=[DataRequired()],
         render_kw={"placeholder": "few words ..."},
     )
     submit = SubmitField(label="Save")
+
+    def validate_rating(self, rating):
+        if int(rating.data) > 5:
+            raise ValidationError(f"You cannot give more than 5 points.")
 
 
 class ReviewForm(FlaskForm):
