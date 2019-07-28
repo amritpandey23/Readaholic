@@ -32,8 +32,8 @@ class LoginForm(FlaskForm):
 # tag choices for book
 book_tags = [
     ("Null", "Choose..."),
-    ("edu", "Education"),
-    ("dev", "Development"),
+    ("education", "Education"),
+    ("development", "Development"),
     ("growth", "Personal Growth"),
     ("programming", "Programming"),
     ("novel", "Novel"),
