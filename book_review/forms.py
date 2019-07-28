@@ -63,10 +63,6 @@ class BookForm(FlaskForm):
     )
     submit = SubmitField(label="Save")
 
-    def validate_rating(self, rating):
-        if int(rating.data) > 5:
-            raise ValidationError(f"You cannot give more than 5 points.")
-
 
 class ReviewForm(FlaskForm):
     review_content = PageDownField(label="Write a review")
