@@ -1,3 +1,7 @@
+body {
+    background: #f3f3f3;
+}
+
 .wrapper {
     min-height: calc(100vh - 56px);
 }
@@ -10,4 +14,16 @@
     justify-content: center;
     align-items: center;
     height: 56px;
+}
+
+.edit-pane {
+    padding: 1.5rem;
+    border-width: 0 1px 1px 1px;
+    border-radius: 0px;
+}
+
+.preview-pane {
+    background: #fff;
+    padding: 1.5rem;
+    min-height: 750px;
 }
