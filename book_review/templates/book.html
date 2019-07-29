@@ -29,9 +29,11 @@
         </div>
         {% endif %}
     </div>
+    {% if book.review_finish %}
     <div class="col-sm-12 mt-4">
         <h1>Detailed Review</h1>
         {{ book.review_content }}
     </div>
+    {% endif %}
 </div>
 {% endblock %}
