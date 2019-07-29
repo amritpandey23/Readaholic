@@ -17,23 +17,15 @@ book_tags = [
 
 class BookForm(FlaskForm):
     book_title = StringField(
-        label="Title",
-        validators=[DataRequired(), Length(max=120)],
-        render_kw={"placeholder": "Perilous Shark was here"},
+        label="Title", validators=[DataRequired(), Length(max=120)]
     )
     author_name = StringField(
-        label="Author",
-        validators=[DataRequired(), Length(max=40)],
-        render_kw={"placeholder": "Gurton Buster"},
+        label="Author", validators=[DataRequired(), Length(max=40)]
     )
     cover_image_file = FileField(label="Upload Cover Image")
-    isbn = StringField(
-        label="ISBN",
-        validators=[DataRequired()],
-        render_kw={"placeholder": "00991122334"},
-    )
+    isbn = StringField(label="ISBN", validators=[DataRequired()])
     genre = SelectField(label="Genre", choices=book_tags)
-    rating = StringField(label="Rating", render_kw={"placeholder": "Out of 5 points"})
+    rating = StringField(label="Rating")
     shop_link = StringField(label="Shop Link")
     tiny_summary = TextAreaField(
         label="Tiny Summary",
@@ -42,7 +34,7 @@ class BookForm(FlaskForm):
     )
     submit = SubmitField(label="Save")
 
-
 class ReviewForm(FlaskForm):
     review_content = PageDownField(label="Write a review")
-    submit = SubmitField(label="Save")
+    publish = SubmitField(label="Publish")
+    save_draft = SubmitField(label="Save Draft")
