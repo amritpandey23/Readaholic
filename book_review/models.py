@@ -30,6 +30,7 @@ class Book(db.Model):
     date_edited = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     tiny_summary = db.Column(db.Text, nullable=True)
     review_content = db.Column(db.Text, nullable=True)
+    review_finish = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
         return f"Title: {self.book_title}, Author: {self.author_name}, Cover Image: {self.cover_image_file}, ISBN Number: {self.isbn}"
