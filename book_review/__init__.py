@@ -29,5 +29,10 @@ login_manager.login_view = _config["login_view"]
 login_manager.login_message_category = "info"
 
 # routes
-from book_review import routes
+from book_review.book.routes import book
+from book_review.admins.routes import admins
+from book_review.main.routes import main
 
+app.register_blueprint(book)
+app.register_blueprint(admins)
+app.register_blueprint(main)
