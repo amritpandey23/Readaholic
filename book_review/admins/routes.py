@@ -1,6 +1,6 @@
 from flask import Blueprint, flash, redirect, render_template, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
-from book_review import bcrypt
+from book_review import bcrypt, db
 from book_review.models import Admin
 from book_review.admins.forms import LoginForm, AdminRegistrationForm
 

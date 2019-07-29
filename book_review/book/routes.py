@@ -1,9 +1,10 @@
 from slugify import slugify
 from flask import Blueprint, flash, render_template, redirect, url_for, abort, request
 from flask_login import login_required
+from book_review import db
 from book_review.models import Book
 from book_review.book.forms import BookForm, ReviewForm
-from book_review.book.utils import save_cover_image
+from book_review.book.utils import save_cover_image, delete_cover_image
 
 book = Blueprint("book", __name__)
 
@@ -31,7 +32,7 @@ def add():
             flash("Something went wrong while adding book to the database.", "danger")
             return render_template("add_book.html", form=form)
 
-        flash("book successfully added to the database", "success")
+        flash("Book successfully added to the database", "success")
         return redirect(url_for("main.home"))
 
     return render_template("add_book.html", form=form, title="Add Book")
@@ -99,7 +100,7 @@ def delete(book_slug):
         db.session.delete(book)
         db.session.commit()
         if book.cover_image_file != "default.jpg":
-            os.remove(os.path.join(app.instance_path, "uploads", book.cover_image_file))
+            delete_cover_image(book.cover_image_file)
     except:
         flash(f"Something went wrong!", "danger")
         return redirect(url_for("book.edit", book_slug=book_slug))
