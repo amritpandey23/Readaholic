@@ -18,21 +18,22 @@
         </p>
         {% if current_user.is_authenticated %}
         <div class="btn-groups mt-2">
-            <a href="{{ url_for('book.edit', book_slug=book.title_slug) }}" class="btn btn-sm btn-outline-info mr-2">Edit</a>
+            <a href="{{ url_for('book.edit', book_slug=book.title_slug) }}" class="btn btn-sm btn-outline-info mr-2">Edit <i class="fas fa-edit"></i></a>
             <a href="{{ url_for('book.write_review', book_slug=book.title_slug) }}" class="btn btn-sm btn-primary">
                 {% if book.review_content %}
                 Edit Review
                 {% else %}
                 Write Review
                 {% endif %}
+                <i class="fas fa-pen-square"></i>
             </a>
         </div>
         {% endif %}
     </div>
     {% if book.review_finish %}
     <div class="col-sm-12 mt-4">
-        <h1>Detailed Review</h1>
-        {{ book.review_content }}
+        {{ markdowner.convert(book.review_content)|safe }}
+        
     </div>
     {% endif %}
 </div>

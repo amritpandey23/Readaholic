@@ -1,10 +1,13 @@
 from slugify import slugify
+from markdown2 import Markdown
 from flask import Blueprint, flash, render_template, redirect, url_for, abort, request
 from flask_login import login_required
 from book_review import db
 from book_review.models import Book
 from book_review.book.forms import BookForm, ReviewForm
 from book_review.book.utils import save_cover_image, delete_cover_image
+
+markdowner = Markdown()
 
 book = Blueprint("book", __name__)
 
@@ -42,7 +45,7 @@ def add():
 @book.route("/book/<book_slug>")
 def present(book_slug):
     book = Book.query.filter_by(title_slug=book_slug).first()
-    return render_template("book.html", book=book, title=book.book_title)
+    return render_template("book.html", book=book, title=book.book_title, markdowner=markdowner)
 
 
 @book.route("/book/genre/<name>")
