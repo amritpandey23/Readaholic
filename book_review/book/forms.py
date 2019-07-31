@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, SelectField, FileField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, Email
 from flask_pagedown.fields import PageDownField
 
 # tag choices for book
@@ -38,3 +38,9 @@ class ReviewForm(FlaskForm):
     review_content = PageDownField(label="Write a review")
     publish = SubmitField(label="Publish")
     save_draft = SubmitField(label="Save Draft")
+
+class CommentForm(FlaskForm):
+    name = StringField(label="Name", validators=[DataRequired()])
+    email = StringField(label="Email", validators=[DataRequired(), Email()])
+    comment_text = TextAreaField(label="Comment", render_kw={"rows": 4})
+    submit = SubmitField(label="Comment")
