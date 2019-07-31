@@ -120,10 +120,12 @@ def edit(book_slug):
 @login_required
 def delete(book_slug):
     book = Book.query.filter_by(title_slug=book_slug).first()
-
+    comments = Comment.query.filter_by(book_id=book.id).all()
     if not book:
         abort(403)
     try:
+        for comment in comments:
+            db.session.delete(comment)
         db.session.delete(book)
         db.session.commit()
         if book.cover_image_file != "default.jpg":
@@ -155,7 +157,6 @@ def write_review(book_slug):
                 return redirect(url_for("book.write_review", book_slug=book.title_slug))
             try:
                 book.review_content = form.review_content.data
-                book.review_finish = True
                 db.session.commit()
                 flash("Review was published.", "success")
             except:
