@@ -20,12 +20,16 @@ body {
     padding: 1.5rem;
     border-width: 0 1px 1px 1px;
     border-radius: 0px;
+    min-height: 750px;
+    outline: none;
 }
 
 .preview-pane {
     background: #fff;
     padding: 1.5rem;
     min-height: 750px;
+    border: 1px solid #dee2e6;
+    border-width: 0 1px 1px 1px;
 }
 
 .review-content, .comment-card {

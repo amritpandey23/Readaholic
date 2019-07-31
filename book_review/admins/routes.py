@@ -7,7 +7,7 @@ from book_review.admins.forms import LoginForm, AdminRegistrationForm
 
 admins = Blueprint("admins", __name__)
 
-
+# add admins
 @admins.route("/admin/add", methods=["GET", "POST"])
 @login_required
 def add():
@@ -24,6 +24,7 @@ def add():
             flash(
                 f"Successfully registered new admin with: {form.email.data}", "success"
             )
+            return redirect(url_for("admins.add"))
         except:
             flash("Some error occurred", "danger")
 

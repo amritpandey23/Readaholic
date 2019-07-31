@@ -11,13 +11,17 @@ markdowner = Markdown()
 
 book = Blueprint("book", __name__)
 
-# book page
+# book/comment page
 @book.route("/book/<book_slug>", methods=["GET", "POST"])
 def present(book_slug):
     book = Book.query.filter_by(title_slug=book_slug).first()
     comments = Comment.query.filter_by(book_id=book.id).all()
     form = CommentForm()
     if form.validate_on_submit():
+        for comment in comments:
+            if comment.email == form.email.data and comment.book_id == book.id:
+                flash(f"Cannot post this comment as you've already posted once.", "info")
+                return redirect(url_for("book.present", book_slug=book.title_slug))
         comment = Comment(
             name=form.name.data,
             email=form.email.data,
@@ -49,25 +53,30 @@ def add():
     form = BookForm()
 
     if form.validate_on_submit():
-        filename = save_cover_image(form.cover_image_file)
-        book = Book(
-            book_title=form.book_title.data,
-            title_slug=slugify(form.book_title.data),
-            author_name=form.author_name.data,
-            cover_image_file=filename if filename else "default.jpeg",
-            isbn=form.isbn.data,
-            genre=form.genre.data,
-            tiny_summary=form.tiny_summary.data,
-        )
-        try:
-            db.session.add(book)
-            db.session.commit()
-        except:
-            flash("Something went wrong while adding book to the database.", "danger")
-            return render_template("add_book.html", form=form)
 
-        flash("Book successfully added to the database", "success")
-        return redirect(url_for("main.home"))
+        saved_book = Book.query.filter_by(isbn = form.isbn.data).first()
+        if saved_book:
+            flash(f"{saved_book.book_title} already exist in database!", "danger")
+        else:
+            filename = save_cover_image(form.cover_image_file)
+            book = Book(
+                book_title=form.book_title.data,
+                title_slug=slugify(form.book_title.data),
+                author_name=form.author_name.data,
+                cover_image_file=filename if filename else "default.jpeg",
+                isbn=form.isbn.data,
+                genre=form.genre.data,
+                tiny_summary=form.tiny_summary.data,
+            )
+            try:
+                db.session.add(book)
+                db.session.commit()
+            except:
+                flash("Something went wrong while adding book to the database.", "danger")
+                return render_template("add_book.html", form=form)
+
+            flash("Book successfully added to the database", "success")
+            return redirect(url_for("main.home"))
 
     return render_template("add_book.html", form=form, title="Add Book")
 
@@ -104,6 +113,7 @@ def edit(book_slug):
         form.author_name.data = book.author_name
         form.isbn.data = book.isbn
         form.tiny_summary.data = book.tiny_summary
+        form.genre.data = book.genre
 
     return render_template(
         "add_book.html", title=f"Edit {book.book_title}", form=form, book=book
@@ -160,7 +170,7 @@ def write_review(book_slug):
             return redirect(url_for("book.present", book_slug=book.title_slug))
     elif request.method == "GET":
         form.review_content.data = book.review_content_draft
-    return render_template("write_review.html", form=form, title="Write Review")
+    return render_template("write_review.html", form=form, book=book, title="Write Review")
 
 
 # book filtered by genre

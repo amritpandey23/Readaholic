@@ -22,7 +22,7 @@ class Book(db.Model):
     book_title = db.Column(db.String(120), unique=True, nullable=False)
     title_slug = db.Column(db.String(120), unique=True, nullable=False)
     author_name = db.Column(db.String(80), nullable=False)
-    isbn = db.Column(db.Integer, nullable=False, default=1343)
+    isbn = db.Column(db.Integer, nullable=False)
     genre = db.Column(db.String(30), nullable=True)
     rating = db.Column(db.Integer, nullable=True)
     shop_link = db.Column(db.String(100), nullable=True)
@@ -40,7 +40,7 @@ class Book(db.Model):
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), nullable=False)
-    name = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.String(120), nullable=False, default="Anonymous")
     comment_text = db.Column(db.Text, nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey("book.id"), nullable=False)
     mod_verified = db.Column(db.Boolean, nullable=False, default=False)

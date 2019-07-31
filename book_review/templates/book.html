@@ -62,7 +62,7 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             {{ form.name.label(class="form-control-label") }}
-            {% if form.name.error %}
+            {% if form.name.errors %}
             {{ form.name(class="form-control is-invalid") }}
             <div class="invalid-feedback">
               {% for error in form.name.errors %}
@@ -71,12 +71,12 @@
             </div>
             {% else %}
             {{ form.name(class="form-control") }}
-            <small class="form-text text-muted">Name is required.</small>
+            <small class="form-text text-muted">Optional</small>
             {% endif %}
           </div>
           <div class="form-group col-md-6">
             {{ form.email.label(class="form-control-label") }}
-            {% if form.email.error %}
+            {% if form.email.errors %}
             {{ form.email(class="form-control is-invalid") }}
             <div class="invalid-feedback">
               {% for error in form.email.errors %}
@@ -90,7 +90,7 @@
           </div>
           <div class="form-group col-md-12">
             {{ form.comment_text.label(class="form-control-label") }}
-            {% if form.comment_text.error %}
+            {% if form.comment_text.errors %}
             {{ form.comment_text(class="form-control is-invalid") }}
             <div class="invalid-feedback">
               {% for error in form.comment_text.errors %}

@@ -9,7 +9,7 @@
             <!-- book title -->
             <div class="form-group col-md-6">
                 {{ form.book_title.label(class="form-control-label") }}
-                {% if form.book_title.error %}
+                {% if form.book_title.errors %}
                 {{ form.book_title(class="form-control is-invalid") }}
                 <div class="invalid-feedback">
                     {% for error in form.book_title.errors %}
@@ -24,7 +24,7 @@
             <!-- author's name -->
             <div class="form-group col-md-6">
                 {{ form.author_name.label(class="form-control-label") }}
-                {% if form.author_name.error %}
+                {% if form.author_name.errors %}
                 {{ form.author_name(class="form-control is-invalid") }}
                 <div class="invalid-feedback">
                     {% for error in form.author_name.errors %}
@@ -39,7 +39,7 @@
             <!-- isbn number -->
             <div class="form-group col-md-6">
                 {{ form.isbn.label(class="form-control-label") }}
-                {% if form.isbn.error %}
+                {% if form.isbn.errors %}
                 {{ form.isbn(class="form-control is-invalid") }}
                 <div class="invalid-feedback">
                     {% for error in form.isbn.errors %}
@@ -60,7 +60,7 @@
             <!-- rating -->
             <div class="form-group col-md-6">
                 {{ form.shop_link.label(class="form-control-label") }}
-                {% if form.shop_link.error %}
+                {% if form.shop_link.errors %}
                 {{ form.shop_link(class="form-control is-invalid") }}
                 <div class="invalid-feedback">
                     {% for error in form.shop_link.errors %}
@@ -75,7 +75,7 @@
             <!-- rating -->
             <div class="form-group col-md-6">
                 {{ form.rating.label(class="form-control-label") }}
-                {% if form.rating.error %}
+                {% if form.rating.errors %}
                 {{ form.rating(class="form-control is-invalid") }}
                 <div class="invalid-feedback">
                     {% for error in form.rating.errors %}
@@ -90,7 +90,7 @@
             <!-- cover image file -->
             <div class="form-group">
                 {{ form.cover_image_file.label(class="form-control-label") }}
-                {% if form.cover_image_file.error %}
+                {% if form.cover_image_file.errors %}
                 {{ form.cover_image_file(class="form-control-file is-invalid") }}
                 <div class="invalid-feedback">
                     {% for error in form.cover_image_file.errors %}
@@ -107,7 +107,7 @@
         <!-- tiny summary -->
         <div class="form-group">
             {{ form.tiny_summary.label(class="form-control-label") }}
-            {% if form.tiny_summary.error %}
+            {% if form.tiny_summary.errors %}
             {{ form.tiny_summary(class="form-control is-invalid") }}
             <div class="invalid-feedback">
                 {% for error in form.tiny_summary.errors %}

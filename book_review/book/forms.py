@@ -1,7 +1,16 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, SelectField, FileField
-from wtforms.validators import DataRequired, Length, Email
+from wtforms import (
+    StringField,
+    SubmitField,
+    TextAreaField,
+    SelectField,
+    FileField,
+    ValidationError,
+    IntegerField
+)
+from wtforms.validators import DataRequired, Length, Email, NumberRange
 from flask_pagedown.fields import PageDownField
+from book_review.models import Book
 
 # tag choices for book
 book_tags = [
@@ -25,7 +34,7 @@ class BookForm(FlaskForm):
     cover_image_file = FileField(label="Upload Cover Image")
     isbn = StringField(label="ISBN", validators=[DataRequired()])
     genre = SelectField(label="Genre", choices=book_tags)
-    rating = StringField(label="Rating")
+    rating = IntegerField(label="Rating", validators=[NumberRange(min=0, max=5)])
     shop_link = StringField(label="Shop Link")
     tiny_summary = TextAreaField(
         label="Tiny Summary",
@@ -34,13 +43,15 @@ class BookForm(FlaskForm):
     )
     submit = SubmitField(label="Save")
 
+
 class ReviewForm(FlaskForm):
     review_content = PageDownField(label="Write a review")
     publish = SubmitField(label="Publish")
     save_draft = SubmitField(label="Save Draft")
 
+
 class CommentForm(FlaskForm):
-    name = StringField(label="Name", validators=[DataRequired()])
+    name = StringField(label="Name", default="Anonymous")
     email = StringField(label="Email", validators=[DataRequired(), Email()])
     comment_text = TextAreaField(label="Comment", render_kw={"rows": 4})
     submit = SubmitField(label="Comment")
