@@ -37,3 +37,12 @@ body {
 .comment-card {
     padding: 1rem 1rem 0 1rem;
 }
+
+.book-deck {
+    min-height: calc(100vh - 224px);
+}
+
+.book-iter-nav {
+    display: flex;
+    justify-content: center;
+}
