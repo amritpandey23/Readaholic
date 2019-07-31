@@ -14,7 +14,7 @@ class Admin(db.Model, UserMixin):
     password = db.Column(db.String(100), nullable=False)
 
     def __repr__(self):
-        return f"Email: {self.email}"
+        return f"Admin(Email: {self.email})"
 
 
 class Book(db.Model):
@@ -31,6 +31,18 @@ class Book(db.Model):
     tiny_summary = db.Column(db.Text, nullable=True)
     review_content = db.Column(db.Text, nullable=True)
     review_finish = db.Column(db.Boolean, nullable=False, default=False)
+    comments = db.relationship("Comment", backref="book", lazy=True)
 
     def __repr__(self):
-        return f"Title: {self.book_title}, Author: {self.author_name}, Cover Image: {self.cover_image_file}, ISBN Number: {self.isbn}"
+        return f"Book(Title: '{self.book_title}', Author: '{self.author_name}', Cover Image: '{self.cover_image_file}', ISBN Number: '{self.isbn}')"
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.String(120), nullable=False)
+    comment_text = db.Column(db.Text, nullable=False)
+    book_id = db.Column(db.Integer, db.ForeignKey("book.id"), nullable=False)
+
+    def __repr__(self):
+        return f"Comment(email: '{self.email}', comment_text: '{self.comment_text}', book_id: '{self.book_id}')"
