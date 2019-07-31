@@ -27,3 +27,13 @@ body {
     padding: 1.5rem;
     min-height: 750px;
 }
+
+.review-content, .comment-card {
+    border: 1px solid #dee2e6;
+    padding: 1rem;
+    background: #fff;
+}
+
+.comment-card {
+    padding: 1rem 1rem 0 1rem;
+}

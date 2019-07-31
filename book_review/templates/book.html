@@ -21,7 +21,7 @@
       <a href="{{ url_for('book.edit', book_slug=book.title_slug) }}" class="btn btn-sm btn-outline-info mr-2">Edit <i
           class="fas fa-edit"></i></a>
       <a href="{{ url_for('book.write_review', book_slug=book.title_slug) }}" class="btn btn-sm btn-primary">
-        {% if book.review_content %}
+        {% if book.review_content_draft %}
         Edit Review
         {% else %}
         Write Review
@@ -31,79 +31,86 @@
     </div>
     {% endif %}
   </div>
-  {% if book.review_finish %}
-  <div class="col-sm-12 mt-4">
-    {{ markdowner.convert(book.review_content)|safe }}
+  {% if book.review_content %}
+  <div class="col-12 mt-4">
+    <h4><b>Review</b></h4>
+    <div class="review-content">
+        {{ markdowner.convert(book.review_content)|safe }}
+    </div>
   </div>
   {% endif %}
-  <div class="row">
-      <div class="col-12">
-          <form action="" method="POST">
-            {{ form.hidden_tag() }}
-            <fieldset class="form-group">
-              <legend class="border-bottom mb-4">Add a comment</legend>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  {{ form.name.label(class="form-control-label") }}
-                  {% if form.name.error %}
-                  {{ form.name(class="form-control is-invalid") }}
-                  <div class="invalid-feedback">
-                    {% for error in form.name.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
-                  </div>
-                  {% else %}
-                  {{ form.name(class="form-control") }}
-                  <small class="form-text text-muted">Name is required.</small>
-                  {% endif %}
-                </div>
-                <div class="form-group col-md-6">
-                  {{ form.email.label(class="form-control-label") }}
-                  {% if form.email.error %}
-                  {{ form.email(class="form-control is-invalid") }}
-                  <div class="invalid-feedback">
-                    {% for error in form.email.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
-                  </div>
-                  {% else %}
-                  {{ form.email(class="form-control") }}
-                  <small class="form-text text-muted">Email is required but will not be published.</small>
-                  {% endif %}
-                </div>
-                <div class="form-group col-md-12">
-                  {{ form.comment_text.label(class="form-control-label") }}
-                  {% if form.comment_text.error %}
-                  {{ form.comment_text(class="form-control is-invalid") }}
-                  <div class="invalid-feedback">
-                    {% for error in form.comment_text.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
-                  </div>
-                  {% else %}
-                  {{ form.comment_text(class="form-control") }}
-                  {% endif %}
-                </div>
-      
-              </div>
-              <div class="form-group">
-                {{ form.submit(class="btn btn-info") }}
-              </div>
-      
-            </fieldset>
-      
-          </form>
+
+  <div class="col-12 mt-4">
+      {% if comments %}
+      <h4 class="mb-2"><b>Comments</b></h4>
+      {% for comment in comments %}
+      <div class="comment-card mb-2">
+        <h5>{{ comment.name }} <i>says:</i></h5>
+        <p>{{ comment.comment_text }}</p>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+
+  <div class="col-8 mt-4">
+    <form action="" method="POST">
+      {{ form.hidden_tag() }}
+      <fieldset class="form-group">
+        <legend class="mb-2">
+          <h4><b>Add a comment</b></h4>
+        </legend>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            {{ form.name.label(class="form-control-label") }}
+            {% if form.name.error %}
+            {{ form.name(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.name.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+            {{ form.name(class="form-control") }}
+            <small class="form-text text-muted">Name is required.</small>
+            {% endif %}
+          </div>
+          <div class="form-group col-md-6">
+            {{ form.email.label(class="form-control-label") }}
+            {% if form.email.error %}
+            {{ form.email(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.email.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+            {{ form.email(class="form-control") }}
+            <small class="form-text text-muted">Email is required but will not be published.</small>
+            {% endif %}
+          </div>
+          <div class="form-group col-md-12">
+            {{ form.comment_text.label(class="form-control-label") }}
+            {% if form.comment_text.error %}
+            {{ form.comment_text(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.comment_text.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+            {{ form.comment_text(class="form-control") }}
+            {% endif %}
+          </div>
+
         </div>
-        <div class="col-12">
-          {% if comments %}
-            {% for comment in comments %}
-            <div class="comment-card">
-                <h3>{{ comment.name }} <i>says:</i></h3>
-                <p>{{ comment.comment_text }}</p>
-              </div>
-            {% endfor %}
-          {% endif %}
+        <div class="form-group">
+          {{ form.submit(class="btn btn-info") }}
         </div>
+
+      </fieldset>
+
+    </form>
   </div>
+
 </div>
 {% endblock %}
