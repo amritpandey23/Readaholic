@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="row">
+
     {% for book in books.items %}
     <div class="col-sm-6 col-md-3 mb-4">
         <div class="card" style="height: 100%;">
@@ -11,22 +12,24 @@
             <div class="card-body">
                 <h5 class="card-title">{{ book.book_title }}</h5>
                 <div class="btn-group">
-                    <a href="{{ url_for('book.present', book_slug=book.title_slug) }}" class="btn btn-sm btn-info mr-2">Read Review</a>
+                    <a href="{{ url_for('book.present', book_slug=book.title_slug) }}"
+                        class="btn btn-sm btn-info mr-2">Read Review</a>
                 </div>
             </div>
         </div>
     </div>
     {% endfor %}
+
 </div>
-    {% for page_num in books.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-        {% if page_num %}
-            {% if curr_page == page_num %}
-            <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
-            {% else %}
-            <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
-            {% endif %}
+{% for page_num in books.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+        {% if curr_page == page_num %}
+        <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
         {% else %}
-        ...
+        <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
         {% endif %}
-    {% endfor %}
+    {% else %}
+    ...
+    {% endif %}
+{% endfor %}
 {% endblock %}

@@ -3,13 +3,44 @@ from markdown2 import Markdown
 from flask import Blueprint, flash, render_template, redirect, url_for, abort, request
 from flask_login import login_required
 from book_review import db
-from book_review.models import Book
-from book_review.book.forms import BookForm, ReviewForm
+from book_review.models import Book, Comment
+from book_review.book.forms import BookForm, ReviewForm, CommentForm
 from book_review.book.utils import save_cover_image, delete_cover_image
 
 markdowner = Markdown()
 
 book = Blueprint("book", __name__)
+
+# book page
+@book.route("/book/<book_slug>", methods=["GET", "POST"])
+def present(book_slug):
+    book = Book.query.filter_by(title_slug=book_slug).first()
+    comments = Comment.query.filter_by(book_id=book.id).all()
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(
+            name=form.name.data,
+            email=form.email.data,
+            comment_text=form.comment_text.data,
+            book_id=book.id,
+        )
+        try:
+            db.session.add(comment)
+            db.session.commit()
+            flash("Comment was posted successfully!", "success")
+            return redirect(url_for("book.present", book_slug=book.title_slug))
+        except:
+            flash("something went wrong!", "danger")
+
+    return render_template(
+        "book.html",
+        book=book,
+        title=book.book_title,
+        markdowner=markdowner,
+        form=form,
+        comments=comments,
+    )
+
 
 # add book
 @book.route("/book/add", methods=["GET", "POST"])
@@ -39,18 +70,6 @@ def add():
         return redirect(url_for("main.home"))
 
     return render_template("add_book.html", form=form, title="Add Book")
-
-
-# book page
-@book.route("/book/<book_slug>")
-def present(book_slug):
-    book = Book.query.filter_by(title_slug=book_slug).first()
-    return render_template("book.html", book=book, title=book.book_title, markdowner=markdowner)
-
-
-@book.route("/book/genre/<name>")
-def genre(name):
-    return redirect(url_for("main.home"))
 
 
 # edit book page
@@ -96,10 +115,12 @@ def edit(book_slug):
 @login_required
 def delete(book_slug):
     book = Book.query.filter_by(title_slug=book_slug).first()
-
+    comments = Comment.query.filter_by(book_id=book.id).all()
     if not book:
         abort(403)
     try:
+        for comment in comments:
+            db.session.delete(comment)
         db.session.delete(book)
         db.session.commit()
         if book.cover_image_file != "default.jpg":
@@ -120,22 +141,32 @@ def write_review(book_slug):
     if form.validate_on_submit():
         if form.save_draft.data:
             try:
-                book.review_content = form.review_content.data
+                book.review_content_draft = form.review_content.data
                 db.session.commit()
+                flash("Draft was saved successfully", "success")
             except:
-                flash("Something went wrong")
+                flash("Something went wrong", "danger")
         elif form.publish.data:
             if not form.review_content.data:
                 flash("Cannot publish empty review!", "danger")
                 return redirect(url_for("book.write_review", book_slug=book.title_slug))
             try:
                 book.review_content = form.review_content.data
-                book.review_finish = True
+                book.review_content_draft = form.review_content.data
                 db.session.commit()
+                flash("Review was published.", "success")
             except:
-                flash("Something went wrong")
+                flash("Something went wrong", "danger")
             return redirect(url_for("book.present", book_slug=book.title_slug))
     elif request.method == "GET":
-        form.review_content.data = book.review_content
+        form.review_content.data = book.review_content_draft
     return render_template("write_review.html", form=form, title="Write Review")
 
+
+# book filtered by genre
+@book.route("/books/genre/<name>")
+def genre(name):
+    books = Book.query.filter_by(genre = name).all()
+    if not books:
+        return abort(404)
+    return render_template("list_books.html", books=books, title=f"Books on {name}")
