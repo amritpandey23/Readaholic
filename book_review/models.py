@@ -30,7 +30,7 @@ class Book(db.Model):
     date_edited = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     tiny_summary = db.Column(db.Text, nullable=True)
     review_content = db.Column(db.Text, nullable=True)
-    review_finish = db.Column(db.Boolean, nullable=False, default=False)
+    review_content_draft = db.Column(db.Text, nullable=True)
     comments = db.relationship("Comment", backref="book", lazy=True)
 
     def __repr__(self):

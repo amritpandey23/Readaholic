@@ -144,10 +144,11 @@ def write_review(book_slug):
     if form.validate_on_submit():
         if form.save_draft.data:
             try:
-                book.review_content = form.review_content.data
+                book.review_content_draft = form.review_content.data
                 db.session.commit()
+                flash("Draft was saved successfully", "success")
             except:
-                flash("Something went wrong")
+                flash("Something went wrong", "danger")
         elif form.publish.data:
             if not form.review_content.data:
                 flash("Cannot publish empty review!", "danger")
@@ -156,10 +157,11 @@ def write_review(book_slug):
                 book.review_content = form.review_content.data
                 book.review_finish = True
                 db.session.commit()
+                flash("Review was published.", "success")
             except:
-                flash("Something went wrong")
+                flash("Something went wrong", "danger")
             return redirect(url_for("book.present", book_slug=book.title_slug))
     elif request.method == "GET":
-        form.review_content.data = book.review_content
+        form.review_content.data = book.review_content_draft
     return render_template("write_review.html", form=form, title="Write Review")
 
