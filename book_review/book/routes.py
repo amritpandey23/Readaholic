@@ -72,11 +72,6 @@ def add():
     return render_template("add_book.html", form=form, title="Add Book")
 
 
-@book.route("/book/genre/<name>")
-def genre(name):
-    return redirect(url_for("main.home"))
-
-
 # edit book page
 @book.route("/book/<book_slug>/edit", methods=["GET", "POST"])
 @login_required
@@ -157,6 +152,7 @@ def write_review(book_slug):
                 return redirect(url_for("book.write_review", book_slug=book.title_slug))
             try:
                 book.review_content = form.review_content.data
+                book.review_content_draft = form.review_content.data
                 db.session.commit()
                 flash("Review was published.", "success")
             except:
@@ -166,3 +162,11 @@ def write_review(book_slug):
         form.review_content.data = book.review_content_draft
     return render_template("write_review.html", form=form, title="Write Review")
 
+
+# book filtered by genre
+@book.route("/books/genre/<name>")
+def genre(name):
+    books = Book.query.filter_by(genre = name).all()
+    if not books:
+        return abort(404)
+    return render_template("list_books.html", books=books, title=f"Books on {name}")
