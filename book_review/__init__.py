@@ -32,7 +32,9 @@ login_manager.login_message_category = "info"
 from book_review.book.routes import book
 from book_review.admins.routes import admins
 from book_review.main.routes import main
+from book_review.errors.handlers import errors
 
 app.register_blueprint(book)
 app.register_blueprint(admins)
 app.register_blueprint(main)
+app.register_blueprint(errors)
