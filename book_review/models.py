@@ -43,6 +43,7 @@ class Comment(db.Model):
     name = db.Column(db.String(120), nullable=False)
     comment_text = db.Column(db.Text, nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey("book.id"), nullable=False)
+    mod_verified = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
-        return f"Comment(email: '{self.email}', comment_text: '{self.comment_text}', book_id: '{self.book_id}')"
+        return f"Comment(email: '{self.email}', comment_text: '{self.comment_text}', book_id: '{self.book_id}', mod_verified: '{self.mod_verified}')"
