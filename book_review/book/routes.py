@@ -173,6 +173,14 @@ def write_review(book_slug):
     return render_template("write_review.html", form=form, book=book, title="Write Review")
 
 
+@book.route("/books/search")
+def search():
+    search_query = request.args.get("bname", type=str)
+    if not search_query:
+        abort(404)
+    books = Book.query.filter(Book.book_title.contains(search_query)).all()
+    return render_template("list_books.html", title=f"Search results for \"{search_query}\"", books=books)
+
 # book filtered by genre
 @book.route("/books/genre/<name>")
 def genre(name):
