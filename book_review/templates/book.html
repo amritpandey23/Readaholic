@@ -13,6 +13,18 @@
     <p class="mt-2">Genre:
       <a href="{{ url_for('book.genre', name=book.genre) }}">{{ book.genre }}</a>
     </p>
+    <p class="rating-stars">
+        {% for n in range(5) %}
+        {% if n < book.rating//1 %}
+        <span class="fa fa-star rating-star"></span>
+        {% elif (book.rating - n) == 0.5 %}
+        <i class="fas fa-star-half-alt rating-star"></i>
+        {% else %}
+        <span class="far fa-star rating-star"></span>
+        {% endif %}
+      {% endfor %}
+      <span>{{ book.rating*1.0 }}</span>
+    </p>
     <p class="mt-2">
       {{ book.tiny_summary }}
     </p>
@@ -35,22 +47,22 @@
   <div class="col-12 mt-4">
     <h4><b>Review</b></h4>
     <div class="review-content">
-        {{ markdowner.convert(book.review_content)|safe }}
+      {{ markdowner.convert(book.review_content)|safe }}
     </div>
   </div>
   {% endif %}
 
   <div class="col-12 mt-4">
-      {% if comments %}
-      <h4 class="mb-2"><b>Comments</b></h4>
-      {% for comment in comments %}
-      <div class="comment-card mb-2">
-        <h5>{{ comment.name }} <i>says:</i></h5>
-        <p>{{ comment.comment_text }}</p>
-      </div>
-      {% endfor %}
-      {% endif %}
+    {% if comments %}
+    <h4 class="mb-2"><b>Comments</b></h4>
+    {% for comment in comments %}
+    <div class="comment-card mb-2">
+      <h5>{{ comment.name }} <i>says:</i></h5>
+      <p>{{ comment.comment_text }}</p>
     </div>
+    {% endfor %}
+    {% endif %}
+  </div>
 
   <div class="col-8 mt-4">
     <form action="" method="POST">

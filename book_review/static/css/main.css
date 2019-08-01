@@ -50,3 +50,7 @@ body {
     display: flex;
     justify-content: center;
 }
+
+.rating-star {
+    color: orange;
+}
