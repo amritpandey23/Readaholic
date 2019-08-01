@@ -67,6 +67,8 @@ def add():
                 isbn=form.isbn.data,
                 genre=form.genre.data,
                 tiny_summary=form.tiny_summary.data,
+                rating=form.rating.data,
+                shop_link = form.shop_link.data
             )
             try:
                 db.session.add(book)
@@ -96,8 +98,11 @@ def edit(book_slug):
         book.book_title = form.book_title.data
         book.author_name = form.author_name.data
         book.isbn = form.isbn.data
+        book.shop_link = form.shop_link.data
+        book.rating = form.rating.data
         book.tiny_summary = form.tiny_summary.data
         if form.cover_image_file.data:
+            delete_cover_image(book.cover_image_file)
             book.cover_image_file = form.cover_image_file.data
         try:
             db.session.commit()
@@ -114,6 +119,8 @@ def edit(book_slug):
         form.isbn.data = book.isbn
         form.tiny_summary.data = book.tiny_summary
         form.genre.data = book.genre
+        form.shop_link.data = book.shop_link
+        form.rating.data = book.rating
 
     return render_template(
         "add_book.html", title=f"Edit {book.book_title}", form=form, book=book
