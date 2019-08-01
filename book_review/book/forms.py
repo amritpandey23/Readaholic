@@ -6,7 +6,7 @@ from wtforms import (
     SelectField,
     FileField,
     ValidationError,
-    IntegerField
+    FloatField
 )
 from wtforms.validators import DataRequired, Length, Email, NumberRange
 from flask_pagedown.fields import PageDownField
@@ -34,7 +34,7 @@ class BookForm(FlaskForm):
     cover_image_file = FileField(label="Upload Cover Image")
     isbn = StringField(label="ISBN", validators=[DataRequired()])
     genre = SelectField(label="Genre", choices=book_tags)
-    rating = IntegerField(label="Rating", validators=[NumberRange(min=0, max=5)])
+    rating = FloatField(label="Rating", validators=[NumberRange(min=0, max=5)])
     shop_link = StringField(label="Shop Link")
     tiny_summary = TextAreaField(
         label="Tiny Summary",
