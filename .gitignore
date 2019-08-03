@@ -10,6 +10,7 @@ __pycache__
 
 #db files
 site.db
+cleanupdb.py
 
 # tokens, secret, keys ...
 config.json

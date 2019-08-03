@@ -1,56 +1,115 @@
 body {
-    background: #f3f3f3;
+  background: #f3f3f3;
 }
 
 .wrapper {
-    min-height: calc(100vh - 56px);
+  min-height: calc(100vh - 56px);
 }
 
 .main-footer {
-    text-align: center;
-    background: #343a40;
-    color: #f9f9f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 56px;
+  background: #343a40;
+  color: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 56px;
 }
 
 .edit-pane {
-    padding: 1.5rem;
-    border-width: 0 1px 1px 1px;
-    border-radius: 0px;
-    min-height: 750px;
-    outline: none;
+  padding: 1.5rem;
+  border-width: 0 1px 1px 1px;
+  border-radius: 0px;
+  min-height: 750px;
+  outline: none;
 }
 
 .preview-pane {
-    background: #fff;
-    padding: 1.5rem;
-    min-height: 750px;
-    border: 1px solid #dee2e6;
-    border-width: 0 1px 1px 1px;
+  background: #fff;
+  padding: 1.5rem;
+  min-height: 750px;
+  border: 1px solid #dee2e6;
+  border-width: 0 1px 1px 1px;
 }
 
-.review-content, .comment-card {
-    border: 1px solid #dee2e6;
-    padding: 1rem;
-    background: #fff;
+.review-content,
+.comment-card {
+  border: 1px solid #dee2e6;
+  padding: 1rem;
+  background: #fff;
+}
+
+.review-content,
+.book-title {
+  font-family: 'PT Serif', serif;
+}
+
+.book-title {
+  font-weight: 600;
 }
 
 .comment-card {
-    padding: 1rem 1rem 0 1rem;
+  padding: 1rem 1rem 0 1rem;
 }
 
 .book-deck {
-    min-height: calc(100vh - 224px);
+  min-height: calc(100vh - 224px);
 }
 
 .book-iter-nav {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .rating-star {
-    color: orange;
+  color: orange;
+}
+
+/* card design */
+.book-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  padding: 0 0 1rem 0;
+  background: #fff;
+}
+
+.book-card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.book-card-container {
+  padding: 2px 16px;
+}
+
+.book-card-title {
+    margin: 0.75rem 0;
+    font-weight: 600;
+}
+
+.book-card .rating-stars {
+    margin-bottom: 1rem;
+}
+
+.book-card .cover-image-container {
+    max-height: 365px;
+    display: flex;
+    border-radius: 5px 5px 0 0;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.book-card .cover-image {
+    width: 100%;
+    height: 100%;
+}
+
+.site-links a{
+  color: #f9f9f9;
+  text-decoration: underline;
+  margin: 0 0.5rem;
+}
+
+.copyright-note {
+  text-align: right;
 }

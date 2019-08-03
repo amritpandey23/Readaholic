@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700&display=swap" rel="stylesheet"> 
 </head>
 
 <body>
@@ -21,15 +22,16 @@
     <header class="main-header">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-          <a class="navbar-brand mr-4" href="{{ url_for('main.home') }}">Book Reviews</a>
+          <a class="navbar-brand mr-2" href="{{ url_for('main.home') }}">
+            <img class="img-fluid" src="{{ url_for('static', filename='img/logo.png') }}" alt="brand logo"
+              style="max-width: 150px;">
+          </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{{ url_for('main.about') }}">About</span></a>
-            </ul>
+            <div class="mr-auto"></div>
             <ul class="navbar-nav">
               <form action="{{ url_for('book.search') }}" method="GET" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" name="bname">
@@ -43,8 +45,10 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <a class="dropdown-item" href="{{ url_for('book.add') }}"><i class="fas fa-plus"></i> Add Book</a>
-                  <a class="dropdown-item" href="{{ url_for('admins.add') }}"><i class="fas fa-user-shield"></i> Create Admin</span></a>
-                  <a class="dropdown-item" href="{{ url_for('admins.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</span></a>
+                  <a class="dropdown-item" href="{{ url_for('admins.add') }}"><i class="fas fa-user-shield"></i> Create
+                    Admin</span></a>
+                  <a class="dropdown-item" href="{{ url_for('admins.logout') }}"><i class="fas fa-sign-out-alt"></i>
+                    Logout</span></a>
                 </div>
               </li>
 
@@ -76,7 +80,23 @@
   </div>
   <footer class="main-footer">
     <div class="container">
-      Copyrights &copy; Amrit Pandey
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="site-links">
+            <a href="">about</a>
+            <a href="">privacy</a>
+            <a href="">terms</a>
+            <a href="">licenses</a>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="copyright-note">
+            Copyrights &copy; 2019 Amrit Pandey
+          </div>
+        </div>
+      </div>
+
+
     </div>
   </footer>
   <script src="{{ url_for('static', filename='js/jquery.slim.min.js') }}"></script>
