@@ -6,6 +6,7 @@ from book_review import db
 from book_review.models import Book, Comment
 from book_review.book.forms import BookForm, ReviewForm, CommentForm
 from book_review.book.utils import save_cover_image, delete_cover_image
+from book_review.utils.helper import analysize_comment
 
 markdowner = Markdown()
 
@@ -22,11 +23,13 @@ def present(book_slug):
             if comment.email == form.email.data and comment.book_id == book.id:
                 flash(f"Cannot post this comment as you've already posted once.", "info")
                 return redirect(url_for("book.present", book_slug=book.title_slug))
+        verification = True if analysize_comment(form.comment_text.data) > 0.0 else False
         comment = Comment(
             name=form.name.data,
             email=form.email.data,
             comment_text=form.comment_text.data,
             book_id=book.id,
+            verified=verification
         )
         try:
             db.session.add(comment)
@@ -194,3 +197,4 @@ def search():
 def genre(name):
     books = Book.query.filter_by(genre = name).all()
     return render_template("list_books.html", books=books, title=f"Books on {name}")
+

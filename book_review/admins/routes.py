@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, redirect, render_template, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 from book_review import bcrypt, db
-from book_review.models import Admin, Comment
+from book_review.models import Admin, Comment, Book
 from book_review.admins.forms import LoginForm, AdminRegistrationForm
 
 
@@ -60,5 +60,45 @@ def logout():
 @admins.route("/comments")
 @login_required
 def comments():
-    com = Comment.query.order_by(Comment.date_added.desc()).all()
+    com = Comment.query.join(Book, Book.id == Comment.book_id)\
+    .add_columns(
+        Book.book_title, 
+        Comment.id,
+        Comment.comment_text, 
+        Comment.date_added, 
+        Comment.email, 
+        Comment.name,
+        Comment.verified)\
+    .order_by(Comment.date_added.desc())\
+    .all()
     return render_template("comments.html", comments=com)
+
+@admins.route("/comment/approve/<comment_id>")
+def approve_comment(comment_id):
+    com = Comment.query.filter_by(id=comment_id).first()
+    if not com:
+        flash("Comment id not found", "info")
+        redirect(url_for('admins.comments'))
+    try:
+        com.verified = True
+        db.session.commit()
+    except:
+        flash("Some error occured in the database", "danger")
+        return redirect(url_for("admins.comments"))
+    flash("Comment was successfully approved", "success")
+    return redirect(url_for("admins.comments"))
+    
+@admins.route("/comment/delete/<comment_id>")
+def delete_comment(comment_id):
+    com = Comment.query.filter_by(id=comment_id).first()
+    if not com:
+        flash("Comment id not found", "info")
+        redirect(url_for("admins.comments"))
+    try:
+        db.session.delete(com)
+        db.session.commit()
+    except:
+        flash("Some error occured in the database", "danger")
+        return redirect(url_for("admins.comments"))
+    flash("Comment was successfully removed", "success")
+    return redirect(url_for("admins.comments"))

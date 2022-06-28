@@ -4,25 +4,29 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Book ID</th>
+            <th>Book</th>
             <th>Email</th>
             <th>Name</th>
             <th>Comment</th>
-            <th>Sentiment</th>
             <th>Date</th>
-            <th>Action</th>
+            <th>Unverified</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
         {% for comment in comments %}
         <tr>
-            <td>{{ comment.book_id }}</td>
+            <td>{{ comment.book_title }}</td>
             <td>{{ comment.email }}</td>
             <td>{{ comment.name }}</td>
             <td>{{ comment.comment_text }}</td>
-            <td> - </td>
             <td>{{ comment.date_added.strftime("%d-%m-%Y %H:%M") }}</td>
-            <td><button class="btn btn-danger btn-sm">Delete</button></td>
+            <td><a href="{{ url_for('admins.delete_comment', comment_id=comment.id) }}"class="btn btn-danger btn-sm">Delete</a></td>
+            {% if comment.verified %}
+                <td>Verified</td>
+            {% else %}
+                <td><a href="{{ url_for('admins.approve_comment', comment_id=comment.id) }}" role="button" class="btn btn-secondary btn-sm">Approve</a></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>

@@ -59,13 +59,15 @@
     {% if comments %}
     <h4 class="mb-2"><b>Comments</b></h4>
     {% for comment in comments %}
-    <div class="comment-card mb-2">
-      <div class="comment-date">
-        <small>{{ comment.date_added.strftime('%d-%m-%Y %H:%M') }}</small>
+    {% if comment.verified %}
+      <div class="comment-card mb-2">
+        <div class="comment-date">
+          <small>{{ comment.date_added.strftime('%d-%m-%Y %H:%M') }}</small>
+        </div>
+        <h5>{{ comment.name }} <i>says:</i></h5>
+        <p>{{ comment.comment_text }}</p>
       </div>
-      <h5>{{ comment.name }} <i>says:</i></h5>
-      <p>{{ comment.comment_text }}</p>
-    </div>
+    {% endif %}
     {% endfor %}
     {% endif %}
   </div>
