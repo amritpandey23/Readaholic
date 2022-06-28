@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Book ID</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Comment</th>
+            <th>Sentiment</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for comment in comments %}
+        <tr>
+            <td>{{ comment.book_id }}</td>
+            <td>{{ comment.email }}</td>
+            <td>{{ comment.name }}</td>
+            <td>{{ comment.comment_text }}</td>
+            <td> - </td>
+            <td>{{ comment.date_added.strftime("%d-%m-%Y %H:%M") }}</td>
+            <td><button class="btn btn-danger btn-sm">Delete</button></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

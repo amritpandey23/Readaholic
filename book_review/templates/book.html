@@ -60,6 +60,9 @@
     <h4 class="mb-2"><b>Comments</b></h4>
     {% for comment in comments %}
     <div class="comment-card mb-2">
+      <div class="comment-date">
+        <small>{{ comment.date_added.strftime('%d-%m-%Y %H:%M') }}</small>
+      </div>
       <h5>{{ comment.name }} <i>says:</i></h5>
       <p>{{ comment.comment_text }}</p>
     </div>
@@ -67,6 +70,7 @@
     {% endif %}
   </div>
 
+  {% if not current_user.is_authenticated %}
   <div class="col-8 mt-4">
     <form action="" method="POST">
       {{ form.hidden_tag() }}
@@ -116,16 +120,13 @@
             {{ form.comment_text(class="form-control") }}
             {% endif %}
           </div>
-
         </div>
         <div class="form-group">
           {{ form.submit(class="btn btn-info") }}
         </div>
-
       </fieldset>
-
     </form>
   </div>
-
+  {% endif %}
 </div>
 {% endblock %}

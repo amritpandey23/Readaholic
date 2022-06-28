@@ -1,19 +1,46 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<div class="book-genre-picker mt-4 mb-4">
+          <ul class="book-genre-list d-flex overflow-scroll justify-content-center">
+            <li>
+              <a class="mr-2 btn btn-sm btn-outline-secondary" href="{{ url_for('book.genre', name='development') }}">Development</a>
+            </li>
+            <li>
+              <a class="mr-2 btn btn-sm btn-outline-secondary" href="{{ url_for('book.genre', name='education') }}">Education</a>
+            </li>
+            <li>
+              <a class="mr-2 btn btn-sm btn-outline-secondary" href="{{ url_for('book.genre', name='growth') }}">Personal Growth</a>
+            </li>
+            <li>
+              <a class="mr-2 btn btn-sm btn-outline-secondary" href="{{ url_for('book.genre', name='programming') }}">Programming</a>
+            </li>
+            <li>
+              <a class="mr-2 btn btn-sm btn-outline-secondary" href="{{ url_for('book.genre', name='novel') }}">Novels</a>
+            </li>
+            <li>
+              <a class="mr-2 btn btn-sm btn-outline-secondary" href="{{ url_for('book.genre', name='fiction') }}">Fiction</a>
+            </li>
+            <li>
+              <a class="mr-2 btn btn-sm btn-outline-secondary" href="{{ url_for('book.genre', name='spiritual') }}">Spiritual</a>
+            </li>
+          </ul>
+        </div>
 <div class="book-deck">
     <div class="row">
         {% for book in books.items %}
-        <div class="col-sm-4 col-md-3 col-6 mb-4">
-            <div class="book-card">
+        <div class=col-sm-4 col-md-3 col-6 mb-4">
+            <div class="card shadow" style="width: 18rem;">
                 <a href="{{ url_for('book.present', book_slug=book.title_slug) }}" class="cover-image-container">
-                    <img class="cover-image"
-                        src="{{ url_for('main.send_image_file', filename=book.cover_image_file) }}">
+                    <div class="book-img-container d-flex justify-content-center p-2 bg-secondary">
+                        <img src="{{ url_for('main.send_image_file', filename=book.cover_image_file) }}" style="max-width:150px;" class="card-img-top" alt="...">
+                    </div>
                 </a>
-                <div class="book-card-container">
-                    <div class="book-card-title">{{ book.book_title }}</div>
+                <div class="card-body">
+                    <h5 class="book-card-title card-title"><b>{{ book.book_title }}</b></h5>
+                    <small class="book-genre-tag bg-info">{{ book.genre }}</small>
                     <div class="rating-stars">
-                        {% for n in range(5) %}
+                    {% for n in range(5) %}
                         {% if n < book.rating//1 %}
                         <span class="fa fa-star rating-star"></span>
                         {% elif (book.rating - n) == 0.5 %}
@@ -21,10 +48,10 @@
                         {% else %}
                         <span class="far fa-star rating-star"></span>
                         {% endif %}
-                        {% endfor %}
+                    {% endfor %}
                     </div>
-                    <a href="{{ url_for('book.present', book_slug=book.title_slug) }}" class="btn btn-sm btn-info">Read
-                        Review</a>
+                    <p class="card-text">{{ book.tiny_summary }}</p>
+                    <a href="{{ url_for('book.present', book_slug=book.title_slug) }}" class="btn btn-sm btn-outline-info">Read Review</a>
                 </div>
             </div>
         </div>

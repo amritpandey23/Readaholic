@@ -15,7 +15,7 @@ book = Blueprint("book", __name__)
 @book.route("/book/<book_slug>", methods=["GET", "POST"])
 def present(book_slug):
     book = Book.query.filter_by(title_slug=book_slug).first()
-    comments = Comment.query.filter_by(book_id=book.id).all()
+    comments = Comment.query.filter_by(book_id=book.id).order_by(Comment.date_added.desc()).all()
     form = CommentForm()
     if form.validate_on_submit():
         for comment in comments:
@@ -101,6 +101,7 @@ def edit(book_slug):
         book.shop_link = form.shop_link.data
         book.rating = form.rating.data
         book.tiny_summary = form.tiny_summary.data
+        book.genre = form.genre.data
         if form.cover_image_file.data:
             delete_cover_image(book.cover_image_file)
             book.cover_image_file = form.cover_image_file.data
@@ -192,6 +193,4 @@ def search():
 @book.route("/books/genre/<name>")
 def genre(name):
     books = Book.query.filter_by(genre = name).all()
-    if not books:
-        return abort(404)
     return render_template("list_books.html", books=books, title=f"Books on {name}")

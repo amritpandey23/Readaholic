@@ -21,6 +21,7 @@ book_tags = [
     ("programming", "Programming"),
     ("novel", "Novel"),
     ("fiction", "Fiction"),
+    ("spiritual", "Spiritual"),
 ]
 
 
