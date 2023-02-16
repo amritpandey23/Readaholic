@@ -15,6 +15,6 @@ Jinja2==3.1.2
 MarkupSafe==2.1.1
 pycparser==2.21
 SQLAlchemy==1.4.36
-Werkzeug==2.1.2
+Werkzeug==2.2.3
 WTForms==3.0.1
 zipp==3.8.0
